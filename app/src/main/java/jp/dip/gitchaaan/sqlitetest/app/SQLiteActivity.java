@@ -1,29 +1,26 @@
 package jp.dip.gitchaaan.sqlitetest.app;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.SimpleCursorAdapter;
+import android.widget.*;
 
 
-public class SQLiteActivity extends FragmentActivity implements OnClickListener {
+public class SQLiteActivity extends Activity implements OnClickListener {
 
     static final String CREATE_TABLE = "create table if not exists GPS_LIST ( _id integer primary key autoincrement, latitude real, longitude real, accuracy integer );";
     static final String DROP_TABLE = "drop table GPS_LIST";
     static final int DB_VERSION = 1;
     static final String DB = "SQLiteTest";
-
     static SQLiteDatabase mydb;
 
     private EditText lat;
@@ -31,8 +28,7 @@ public class SQLiteActivity extends FragmentActivity implements OnClickListener 
     private EditText acc;
 
     private SimpleCursorAdapter myadapter;
-    private FragmentTransaction tx;
-    private Cursor cursor;
+    private ListView listview;
     /**
      * OnCreate
      * @param savedInstanceState
@@ -53,20 +49,17 @@ public class SQLiteActivity extends FragmentActivity implements OnClickListener 
         btn_insert.setOnClickListener(this);
         Button btn_select = (Button)findViewById(R.id.btn_select);
         btn_select.setOnClickListener(this);
+        Button btn_delete = (Button)findViewById(R.id.btn_delete);
+        btn_delete.setOnClickListener(this);
 
-        cursor = mydb.query("GPS_LIST", new String[] {"_id", "latitude", "longitude", "accuracy"}, null, null, null, null, null, null);
-
+        Cursor cursor = mydb.query("GPS_LIST", new String[] {"_id", "latitude", "longitude", "accuracy"}, null, null, null, null, null, null);
         String[] from = {"_id", "longitude", "latitude", "accuracy"};
         int[] to = {R.id.data_id, R.id.data_lng, R.id.data_lat, R.id.data_acc};
-
         myadapter = new SimpleCursorAdapter(this, R.layout.db_data, cursor, from, to);
-        ListFragment dataFragment = new ListFragment();
-        dataFragment.setListAdapter(myadapter);
+        listview = (ListView) findViewById(R.id.listView);
+        listview.setAdapter(myadapter);
 
-        FragmentManager manager = getSupportFragmentManager();
-        tx = manager.beginTransaction();
-        tx.add(R.id.fragment, dataFragment, "fragment");
-        tx.commit();
+        startService(new Intent(SQLiteActivity.this, GpsService.class));
     }
 
     /**
@@ -87,11 +80,13 @@ public class SQLiteActivity extends FragmentActivity implements OnClickListener 
             mydb.insert("GPS_LIST", null, values);
 
         } else if(view.getId() == R.id.btn_select) {
+            Cursor cursor = mydb.query("GPS_LIST", new String[] {"_id", "latitude", "longitude", "accuracy"}, null, null, null, null, null, null);
             startManagingCursor(cursor);
             myadapter.changeCursor(cursor);
+        } else if(view.getId() == R.id.btn_delete) {
+            mydb.delete("GPS_LIST", null, null);
         }
     }
-
 
     /**
      * SQLiteOpenHelper class

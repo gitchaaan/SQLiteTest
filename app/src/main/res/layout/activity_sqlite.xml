@@ -64,11 +64,16 @@
             android:layout_below="@+id/textView4" android:layout_alignLeft="@+id/btn_insert"
             android:layout_alignStart="@+id/btn_insert" android:layout_toLeftOf="@+id/lat"
             android:layout_toStartOf="@+id/lat"/>
-    <fragment android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:name="android.support.v4.app.ListFragment" android:id="@+id/fragment"
-              android:layout_below="@+id/btn_insert" android:layout_alignParentLeft="true"
-              android:layout_alignParentStart="true" android:layout_alignParentBottom="true"
-              android:layout_alignParentRight="true" android:layout_alignParentEnd="true"/>
+    <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listView" android:layout_below="@+id/btn_insert"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DELETE"
+            android:id="@+id/btn_delete" android:layout_below="@+id/acc" android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>
