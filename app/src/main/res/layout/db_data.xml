@@ -9,20 +9,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="id"
-            android:id="@+id/data_id" android:layout_weight="0.10"/>
+            android:id="@+id/data_id" android:layout_weight="0.15"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="longitude"
-            android:id="@+id/data_lng" android:layout_weight="0.40"/>
+            android:id="@+id/data_lng" android:layout_weight="0.30"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="latitude"
-            android:id="@+id/data_lat" android:layout_weight="0.40"/>
+            android:id="@+id/data_lat" android:layout_weight="0.30"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="accuracy"
-            android:id="@+id/data_acc"/>
+            android:id="@+id/data_acc" android:layout_weight="0.10"/>
 </LinearLayout>
